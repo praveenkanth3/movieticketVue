@@ -5,7 +5,7 @@
         <div class="movies-container">
             <CardComponent v-for="movie in movies" :key="movie.imdbid" :movieDetail="movie" :onClickCard="onClickCard" />
         </div>
-        <CustomDrawer :isDrawerOpen="isDrawerOpen" :toggleDrawer="toggleDrawer"/>
+        <CustomDrawer :isDrawerOpen="isDrawerOpen" :toggleDrawer="toggleDrawer" :selectedMovie="selectedMovie" />
     </div>
 
 </template>

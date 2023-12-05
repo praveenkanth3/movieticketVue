@@ -1,12 +1,24 @@
 <template>
-    <Transition  v-if="isDrawerOpen" name="drawer-fade">
-        <div class="custom-drawer">
-      <!-- Drawer content goes here -->
-      <div class="drawer-content">
-        <h2>Drawer Content</h2>
-        <p>This is the content of the custom drawer.</p>
-        <button @click="toggleDrawer">Close Drawer</button>
-      </div>
+    <Transition name="drawer-fade">
+        <div v-if="isDrawerOpen" class="custom-drawer">
+            <header class="heading">
+                <h2 class="title">{{ selectedMovie.title }}</h2>
+                <div class="x-button" tabindex="0" @click="toggleDrawer">X</div>
+            </header>
+
+            <section class="body-section">
+                <img :src="selectedMovie.imageurl[0]" />
+                <div>
+                    <div><span class="bold-text">Genre: </span>{{ selectedMovie.genre.join(',') }}</div>
+                    <div><span class="bold-text">IMDB:</span> {{ selectedMovie.imdbrating || 'N/A' }} <span class="bold-text">Released:</span>{{ selectedMovie.released }}</div>
+                    <div><span class="bold-text">Languages:</span>{{  selectedMovie.language.join(',') || 'N/A'  }} <span class="bold-text">Runtime:</span>{{ selectedMovie.runtime }}</div>
+                    <div><span class="bold-text">Synopsis:</span>{{ selectedMovie.synopsis }}</div>
+                </div>
+            </section>
+
+            <footer>
+                <div class="bookTicket" tabindex="0" @click="onClickBookShow">Book Your show Here</div>
+            </footer>
     </div>
     </Transition>
 </template>
@@ -24,6 +36,19 @@ export default {
         toggleDrawer: {
             type: Function,
             required: true
+        },
+
+        selectedMovie: {
+            type: Object,
+            required: true
+        }
+    },
+
+    methods: {
+
+        onClickBookShow() {
+            this.$router.push({ name: 'BookingPage' });
+            this.$store.dispatch('setSelectedMovie', { movie: this.selectedMovie,price: 150});
         }
     }
 
@@ -33,33 +58,70 @@ export default {
 <style scoped>
 .custom-drawer {
   position: fixed;
-  top: 0;
+  top: 80px;
   right: 0;
-  width: 250px;
+  width: 350px;
+  border-radius: 10px;
   height: 100%;
-  /* transform: translateX(100%); */
-  background-color: #fff; /* Add your desired background color */
-  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); */
-  /* transition: transform 0.3s ease-in-out; */
+  color: white;
+  border: 5px solid antiquewhite;
+  background-color: burlywood; /* Add your desired background color */
 }
 
-/* .custom-drawer.closed {
-  transform: translateX(-100%);
-} */
+.bold-text {
+    color: black;
+    font-weight: bold;
+}
+.heading {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-around; */
+}
 
-.custom-drawer.open {
-  transform: translateX(0); /* Move to the left to bring on-screen */
+.title {
+    width: 305px;
+    margin-top: 0;
+}
+
+.bookTicket {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    width: 300px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.x-button {
+    font-size: 20px;
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    cursor: pointer;
+    padding: 10px;
+    border: 5px solid antiquewhite;
+    border-radius: 60px;
+}
+
+.body-section {
+    text-align: center;
+    margin-top: -10px;
+    font-weight: bold;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 .drawer-fade-enter,
   .drawer-fade-leave-to {
     opacity: 0;
-    transform: translateX(100%);
   }
 
   .drawer-fade-enter-active,
   .drawer-fade-leave-active {
-    transform: translateX(0); /* Move to the left to bring on-screen */
     transition: opacity .5s ease;
   }
 </style>

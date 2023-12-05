@@ -4,7 +4,7 @@
         <div class="title-section">
             <h1>{{ title }}</h1>
             <i style="font-size:36px" class="fa fa-film"></i>
-            <InputBox placeholder="Search" :value="searchValue" :onChange="onChangeSearch"/>
+            <InputBox v-if="onChangeSearch" placeholder="Search" :value="searchValue" :onChange="onChangeSearch"/>
         </div>
     </div>
 
@@ -26,12 +26,12 @@ export default {
 
         onChangeSearch: {
             type: Function,
-            required: true
+            required: false
         },
 
         searchValue: {
             type: String,
-            required: true
+            required: false
         }
 
     },
