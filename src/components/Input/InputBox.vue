@@ -1,7 +1,7 @@
 <template>
     <div class="inputContainer">
         <div class="label">{{ label  }}</div>
-        <input class="input" :type="inputType" :placeholder="placeholder" v-bind:value="value" @input="onChange($event.target.value)"/>
+        <input class="input" :type="inputType" :placeholder="placeholder" :value="value" @input="onChange($event.target.value)" :maxlength="maxlength"/>
     </div>
 </template>
 
@@ -35,6 +35,12 @@ export default {
         onChange: {
             type: Function,
             required: true
+        },
+
+        maxlength: {
+            type: String,
+            required: false,
+            default: '9999'
         }
     }
 }

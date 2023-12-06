@@ -45,6 +45,7 @@ export default {
         onClickLogOut() {
             this.$store.dispatch('setUser', {});
             this.$router.push({ name: 'LandingPage' });
+            localStorage.setItem('user',JSON.stringify({}));
 
         }
     },

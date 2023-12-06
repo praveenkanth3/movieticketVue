@@ -9,6 +9,18 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({ routes })
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some((record) => record.meta.requiresAuth)) {
+    if(!store.getters.user?.name) {
+      next({ name: 'LandingPage' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+ });
+
 new Vue({
   router,
   store,

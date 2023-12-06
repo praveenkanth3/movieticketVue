@@ -10,14 +10,15 @@ export const store = new Vuex.Store({
     state: {
         ticketsDetails: {},
         movie: {},
-        user: {}
+        user: {},
+        selectedTicket: []
     },
 
     getters: {
         ticketsDetails: state => state.ticketsDetails,
         movie: state => state.movie,
-        user: state => state.user
-
+        user: state => state.user,
+        selectedTicket: state => state.selectedTicket
     },
 
     mutations,

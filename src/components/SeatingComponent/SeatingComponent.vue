@@ -12,10 +12,14 @@
 
             <div class="seats">
                 <div class="row">
-                    <div tabindex="0" v-for="n in range(1,28)" :key="n" @click="() => onClickSeat(n)" :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']">{{ n }}</div>
-                </div>
-                <div class="row">
-                    <div tabindex="0" v-for="n in range(29,56)" :key="n" @click="() => onClickSeat(n)" :class="[selectedSeats.includes(n) ? 'selected-seats' : '',ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']">{{ n }}</div>
+                    <div 
+                        tabindex="0" 
+                        v-for="n in range(1,60)" 
+                        :key="n" @click="() => onClickSeat(n)" 
+                        :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']"
+                    >
+                        {{ n }}
+                    </div>
                 </div>
             </div>
         </section>
@@ -29,9 +33,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import HeaderComponent from "../HeaderComponent/HeaderComponent.vue";
 import CustomButton from "../Button/CustomButton.vue";
-import { mapGetters } from 'vuex';
 
 export default {
 
@@ -45,7 +49,6 @@ export default {
 
     mounted() {
         console.log(this.movie)
-
     },
 
     methods: {
@@ -55,8 +58,9 @@ export default {
 
         onClickBookTicket() {
             this.$store.dispatch('setBookedTickets',{ movie:this.movie.movie.title, seats:this.selectedSeats, gender: this.user.gender });
+            this.$store.dispatch('setSelectedTickets', this.selectedSeats)
             this.selectedSeats = [];
-            this.$router.push({ name: 'SuccessPage'})
+            this.$router.push({ name: 'SuccessPage', params: this.selectedSeats});
         },
 
         setSeats(val) {

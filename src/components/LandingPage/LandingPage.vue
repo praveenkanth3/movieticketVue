@@ -4,7 +4,7 @@
         <div class="user-details">
             <div class="error-msg">Please fill the form to proceed</div>
             <InputBox placeholder="Name" :value="name" :onChange="onChangeName" />
-            <InputBox placeholder="Contact No." inputType="tel" :value="contact" :onChange="onChangeContact" />
+            <InputBox placeholder="Contact No." inputType="text" :value="contact" maxlength="10" :onChange="onChangeContact" />
             <SelectBox class="select-box" placeholder="Gender" :lists="['Male', 'Female']" :onChange="onChangeGender" />
             <CustomButton customClass="btn" class="btn-container" label="Continue" :onClickBtn="onClickContinue" />
             <div class="error-msg">{{ errorMsg }}</div>
@@ -36,11 +36,18 @@ export default {
         },
 
         onChangeContact(val) {
-            this.contact = val;
+            if(val.length < 11 && val.length > 0) {
+                this.contact = val.replace(/[^0-9]/gi, "")
+            }
         },
 
         onChangeGender(val) {
             this.gender = val;
+        },
+
+        onKeyDownContact() {
+            console.log('sad')
+            if(this.contact.length===10) return false;
         },
 
         onClickContinue() {

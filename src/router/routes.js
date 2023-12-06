@@ -6,18 +6,22 @@ export const routes = [
     },
     {
         name: 'HomePage',
-        path: '/HomePage',
-        component: () => import(/* webpackChunkName: "HomePage" */'../components/HomePage/HomePage.vue')
+        path: '/homepage',
+        component: () => import(/* webpackChunkName: "HomePage" */'../components/HomePage/HomePage.vue'),
+        meta: { requiresAuth: true }
+
     },
     {
         name: 'BookingPage',
-        path: '/BookingPage',
-        component: () => import(/* webpackChunkName: "BookingPage" */'../components/SeatingComponent/SeatingComponent.vue')
+        path: '/bookingpage',
+        component: () => import(/* webpackChunkName: "BookingPage" */'../components/SeatingComponent/SeatingComponent.vue'),
+        meta: { requiresAuth: true }
     },
     {
         name: 'SuccessPage',
-        path: '/SuccessPage',
-        component: () => import(/* webpackChunkName: "SuccessPage" */'../components/SuccessPage/SuccessPage.vue')
+        path: '/successpage',
+        component: () => import(/* webpackChunkName: "SuccessPage" */'../components/SuccessPage/SuccessPage.vue'),
+        meta: { requiresAuth: true }
     },
     {
         path :'*',
