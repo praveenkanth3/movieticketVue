@@ -6,12 +6,17 @@
             <i style="font-size:36px" class="fa fa-film"></i>
             <InputBox v-if="onChangeSearch" placeholder="Search" :value="searchValue" :onChange="onChangeSearch"/>
         </div>
+        <div class="user-section" v-if="user.name">
+            <div>{{ user.name }}</div>
+            <div class="logout-btn" tabindex="0" @click="onClickLogOut">Logout</div>
+        </div>
     </div>
 
 </template>
 
 <script>
 import InputBox from '../Input/InputBox.vue'
+import { mapGetters } from 'vuex';
 
 export default {
 
@@ -37,7 +42,17 @@ export default {
     },
 
     methods: {
+        onClickLogOut() {
+            this.$store.dispatch('setUser', {});
+            this.$router.push({ name: 'LandingPage' });
 
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            user: 'user'
+        })
     },
 
     components: {
@@ -54,12 +69,22 @@ export default {
 .title-section{
     display: flex;
     align-items: center;
-    background-color: burlywood;
-    border-radius: 10px;
 }
 
 .header-container {
     position: sticky;
     top: 0;
+    background-color: burlywood;
+    border-radius: 10px;
+}
+
+.logout-btn {
+    color: blue;
+}
+
+.user-section {
+    display: flex;
+    column-gap: 10px;
+    margin: 5px;
 }
 </style>

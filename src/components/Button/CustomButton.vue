@@ -1,7 +1,7 @@
 <template>
 
     <div class='btnContainer'>
-        <button @click="onClickBtn">{{ label }}</button>
+        <button @click="onClickBtn" :class="customClass">{{ label }}</button>
     </div>
 
 </template>
@@ -20,6 +20,11 @@ export default {
         onClickBtn: {
             type: Function,
             required: true,
+        },
+
+        customClass: {
+            type: String,
+            required: false
         }
     }
 }

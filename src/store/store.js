@@ -9,12 +9,14 @@ export const store = new Vuex.Store({
 
     state: {
         ticketsDetails: {},
-        movie: {}
+        movie: {},
+        user: {}
     },
 
     getters: {
         ticketsDetails: state => state.ticketsDetails,
-        movie: state => state.movie
+        movie: state => state.movie,
+        user: state => state.user
 
     },
 

@@ -5,5 +5,9 @@ export const actions = {
 
     setBookedTickets({ commit }, payload) {
         commit('setBookedTickets',payload);
+    },
+
+    setUser({ commit }, payload) {
+        commit('setUser', payload)
     }
 };

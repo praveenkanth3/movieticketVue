@@ -5,12 +5,17 @@
         <section class="seat-section">
             <div class="screen">{{ movie.movie.title }}</div>
 
+            <div>
+                <div :style="{ color: 'blue', fontSize: '12px' }">Male Booked</div>
+                <div :style="{ color: 'pink', fontSize: '12px' }">Female Booked</div>
+            </div>
+
             <div class="seats">
                 <div class="row">
-                    <div tabindex="0" v-for="n in range(1,28)" :key="n" @click="() => onClickSeat(n)" :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.includes(n) ? 'booked-seats': '']">{{ n }}</div>
+                    <div tabindex="0" v-for="n in range(1,28)" :key="n" @click="() => onClickSeat(n)" :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']">{{ n }}</div>
                 </div>
                 <div class="row">
-                    <div tabindex="0" v-for="n in range(29,56)" :key="n" @click="() => onClickSeat(n)" :class="[selectedSeats.includes(n) ? 'selected-seats' : '',ticketsDetails[movie?.movie?.title]?.includes(n) ? 'booked-seats': '']">{{ n }}</div>
+                    <div tabindex="0" v-for="n in range(29,56)" :key="n" @click="() => onClickSeat(n)" :class="[selectedSeats.includes(n) ? 'selected-seats' : '',ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']">{{ n }}</div>
                 </div>
             </div>
         </section>
@@ -49,16 +54,37 @@ export default {
         },
 
         onClickBookTicket() {
-            this.$store.dispatch('setBookedTickets',{ movie:this.movie.movie.title, seats:this.selectedSeats});
+            this.$store.dispatch('setBookedTickets',{ movie:this.movie.movie.title, seats:this.selectedSeats, gender: this.user.gender });
             this.selectedSeats = [];
             this.$router.push({ name: 'SuccessPage'})
         },
 
-        onClickSeat(val) {
+        setSeats(val) {
             if(this.selectedSeats.includes(val)) {
-                this.selectedSeats.splice(this.selectedSeats.indexOf(val),1)
+                    this.selectedSeats.splice(this.selectedSeats.indexOf(val),1)
             } else {
-                this.selectedSeats.push(val)
+                 this.selectedSeats.push(val)
+            }
+        },
+
+        onClickSeat(val) {
+            if(this.user.gender === 'Male') {
+                if(this.ticketsDetails?.[this.movie.movie.title]?.['Female']?.includes(val-1) || this.ticketsDetails?.[this.movie.movie.title]?.['Female']?.includes(val+1)) {
+                    console.log('near female')
+                    alert('Seat is next to the female!');
+                }
+                else {
+                    this.setSeats(val);
+                }
+            }
+            else if (this.user.gender === 'Female') {
+                if(this.ticketsDetails?.[this.movie.movie.title]?.['Male']?.includes(val-1) || this.ticketsDetails?.[this.movie.movie.title]?.['Male']?.includes(val+1)) {
+                    console.log('near male')
+                    alert('Seat is next to the male!');
+                }
+                else {
+                   this.setSeats(val);
+                }
             }
         }
     },
@@ -67,7 +93,8 @@ export default {
     
         ...mapGetters({
             movie: 'movie',
-            ticketsDetails: 'ticketsDetails'
+            ticketsDetails: 'ticketsDetails',
+            user: 'user'
         }),
         
         total() {
@@ -126,8 +153,15 @@ export default {
 
 }
 
-.booked-seats {
-    background-color: red;
+.booked-seats-male {
+    background-color: blue;
+    color: white;
+    pointer-events: none;
+}
+
+.booked-seats-female {
+    background-color: pink;
+    color: white;
     pointer-events: none;
 }
 

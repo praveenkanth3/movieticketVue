@@ -1,7 +1,12 @@
 export const routes = [
     {
-        name: 'HomePage',
+        name: 'LandingPage',
         path: '/',
+        component: () => import(/* webpackChunkName: "LandingPage" */'../components/LandingPage/LandingPage.vue')
+    },
+    {
+        name: 'HomePage',
+        path: '/HomePage',
         component: () => import(/* webpackChunkName: "HomePage" */'../components/HomePage/HomePage.vue')
     },
     {
@@ -12,7 +17,11 @@ export const routes = [
     {
         name: 'SuccessPage',
         path: '/SuccessPage',
-        component: () => import(/* webpackChunkName: "BookingPage" */'../components/SuccessPage/SuccessPage.vue')
-    }
+        component: () => import(/* webpackChunkName: "SuccessPage" */'../components/SuccessPage/SuccessPage.vue')
+    },
+    {
+        path :'*',
+        component: () => import(/* webpackChunkName: "PageNotFound" */'../components/PageNotFound/PageNotFound.vue')
+      }
 
 ];
