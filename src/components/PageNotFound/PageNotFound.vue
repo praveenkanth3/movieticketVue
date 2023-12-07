@@ -12,7 +12,7 @@ export default {
 
     methods: {
         onClickGoHome() {
-            this.$router.push({ name: 'HomePage'})
+            this.$router.push({ name: 'LandingPage'})
         }
     }
 }

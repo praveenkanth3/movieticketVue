@@ -8,6 +8,7 @@
             <div>
                 <div :style="{ color: 'blue', fontSize: '12px' }">Male Booked</div>
                 <div :style="{ color: 'pink', fontSize: '12px' }">Female Booked</div>
+                <div :style="{ color: 'rgb(168, 218, 168)', fontSize: '12px' }">Selected Seats</div>
             </div>
 
             <div class="seats">
@@ -16,6 +17,7 @@
                         tabindex="0" 
                         v-for="n in range(1,60)" 
                         :key="n" @click="() => onClickSeat(n)" 
+                        :ref="`seats${n}`"
                         :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']"
                     >
                         {{ n }}
