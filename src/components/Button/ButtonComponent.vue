@@ -9,7 +9,7 @@
 <script>
 
 export default {
-    name: 'CustomButton',
+    name: 'ButtonComponent',
 
     props: {
         label: {

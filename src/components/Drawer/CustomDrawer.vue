@@ -1,6 +1,6 @@
 <template>
     <Transition name="drawer-fade">
-        <div v-if="isDrawerOpen" class="custom-drawer">
+        <div v-if="isDrawerOpen" class="custom-drawer" tabindex="0" @keydown.esc="toggleDrawer" ref="drawer">
             <header class="heading">
                 <h2 class="title">{{ selectedMovie.title }}</h2>
                 <div class="x-button" tabindex="0" @click="toggleDrawer">X</div>
@@ -43,6 +43,10 @@ export default {
             required: true
         }
     },
+
+    // mounted() {
+    //     this.$refs.drawer.focus();
+    // },
 
     methods: {
 

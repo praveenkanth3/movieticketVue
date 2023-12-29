@@ -1,12 +1,12 @@
 export const routes = [
-    {
-        name: 'LandingPage',
-        path: '/',
-        component: () => import(/* webpackChunkName: "LandingPage" */'../components/LandingPage/LandingPage.vue')
-    },
+    // {
+    //     name: 'LandingPage',
+    //     path: '/',
+    //     component: () => import(/* webpackChunkName: "LandingPage" */'../components/LandingPage/LandingPage.vue')
+    // },
     {
         name: 'HomePage',
-        path: '/homepage',
+        path: '/',
         component: () => import(/* webpackChunkName: "HomePage" */'../components/HomePage/HomePage.vue'),
         meta: { requiresAuth: true }
 

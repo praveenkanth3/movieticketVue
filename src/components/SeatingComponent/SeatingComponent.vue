@@ -28,7 +28,7 @@
 
         <footer v-if="selectedSeats.length">
             <div>Total Amount: {{ total }}</div>
-            <CustomButton  label="Book Tickets"  :onClickBtn="onClickBookTicket"/>
+            <button-component  label="Book Tickets"  :onClickBtn="onClickBookTicket"/>
         </footer>
     </div>
 
@@ -37,7 +37,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import HeaderComponent from "../HeaderComponent/HeaderComponent.vue";
-import CustomButton from "../Button/CustomButton.vue";
+import ButtonComponent from "../Button/ButtonComponent.vue";
 
 export default {
 
@@ -110,7 +110,7 @@ export default {
 
     components: {
         HeaderComponent,
-        CustomButton
+        ButtonComponent
     }
 }
 

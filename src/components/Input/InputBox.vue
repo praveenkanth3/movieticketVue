@@ -1,7 +1,15 @@
 <template>
     <div class="inputContainer">
-        <div class="label">{{ label  }}</div>
-        <input class="input" :type="inputType" :placeholder="placeholder" :value="value" @input="onChange($event.target.value)" :maxlength="maxlength"/>
+        <div v-if="label" class="label">{{ label  }}</div>
+
+        <input 
+            class="input" 
+            :type="inputType" 
+            :placeholder="placeholder" 
+            :value="value"
+            ref="input"
+            @input="onChange($event.target.value)" :maxlength="maxlength"
+        />
     </div>
 </template>
 
@@ -41,6 +49,12 @@ export default {
             type: String,
             required: false,
             default: '9999'
+        }
+    },
+
+    methods: {
+        focus() {
+            this.$refs.input.focus()
         }
     }
 }

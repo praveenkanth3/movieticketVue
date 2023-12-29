@@ -4,15 +4,16 @@
         <h1>Uff...Page Not Found</h1>
         <div tabindex="0" @click="onClickGoHome" class="goto-home">Go To Home</div>
     </div>
-
 </template>
+
 <script>
+
 export default {
     name: 'PageNotFound',
 
     methods: {
         onClickGoHome() {
-            this.$router.push({ name: 'LandingPage'})
+            this.$router.push({ name: 'HomePage'})
         }
     }
 }

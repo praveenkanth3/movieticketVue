@@ -1,14 +1,32 @@
 <template>
     <div class="homepage-container">
-        <HeaderComponent title="Book Your Show" :onChangeSearch="onChangeSearch" :searchValue="searchTxt"/>
+        <div :class="{'blur-content': isDrawerOpen}">
+            <HeaderComponent 
+                title="Book Your Show" 
+                :onChangeSearch="onChangeSearch" 
+                :searchValue="searchTxt"
+                :searchOptions="searchOptions"
+                :changeSeachInputForValue="changeSeachInputForValue"
+            />
 
-        <div class="movies-container">
-            <CardComponent v-for="movie in movies" :key="movie.imdbid" :movieDetail="movie" :onClickCard="onClickCard" />
+            <div class="movies-container">
+                <CardComponent 
+                    v-for="movie in movies" 
+                    :key="movie.imdbid" 
+                    :movieDetail="movie" 
+                    :onClickCard="onClickCard" 
+                />
+            </div>
         </div>
-        <CustomDrawer :isDrawerOpen="isDrawerOpen" :toggleDrawer="toggleDrawer" :selectedMovie="selectedMovie" />
-    </div>
 
+        <CustomDrawer 
+            :isDrawerOpen="isDrawerOpen"
+            :toggleDrawer="toggleDrawer" 
+            :selectedMovie="selectedMovie"
+        />
+    </div>
 </template>
+
 <script>
 import HeaderComponent from '../HeaderComponent/HeaderComponent.vue'
 import CardComponent from '../CardComponent/CardComponent.vue'
@@ -21,7 +39,9 @@ export default {
     data () {
         return {
             searchTxt: '',
+
             selectedMovie: {},
+
             isDrawerOpen: false
         }
     },
@@ -29,7 +49,8 @@ export default {
     methods: {
 
         onClickCard(movie) {
-            console.log(movie);
+            console.log(movies);
+            console.log(this.searchOptions);
             this.selectedMovie = movie;
             this.isDrawerOpen = true;
         },
@@ -40,12 +61,20 @@ export default {
 
         toggleDrawer() {
             this.isDrawerOpen = !this.isDrawerOpen;
-        }
+        },
+
+        changeSeachInputForValue(val) {
+            this.searchTxt = val
+        },
     },
 
     computed: {
         movies() {
             return movies.filter((val) =>  val.title.toLowerCase().includes(this.searchTxt.toLowerCase()))
+        },
+
+        searchOptions() {
+            return this.movies.map(val => val.title);
         }
     },
     
@@ -62,12 +91,17 @@ export default {
 .movies-container {
     display: flex;
     border-radius: 10px;
-    column-gap: 20px;
+    column-gap: 70px;
     padding: 20px;
     row-gap: 20px;
     flex-wrap: wrap;
     background-color:antiquewhite;
 
+}
+
+.blur-content{
+  filter: blur(5px);
+  pointer-events: none;
 }
 
 .homepage-container { 
