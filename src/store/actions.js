@@ -13,5 +13,9 @@ export const actions = {
     
     setSelectedTickets( { commit }, payload) {
         commit('setSelectedTickets', payload)
+    },
+
+    setAllUsers({ commit }, payload) {
+        commit('setAllUsers', payload)
     }
 };

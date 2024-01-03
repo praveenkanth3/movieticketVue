@@ -11,14 +11,16 @@ export const store = new Vuex.Store({
         ticketsDetails: {},
         movie: {},
         user: {},
-        selectedTicket: []
+        selectedTicket: [],
+        allUsers: []
     },
 
     getters: {
         ticketsDetails: state => state.ticketsDetails,
         movie: state => state.movie,
         user: state => state.user,
-        selectedTicket: state => state.selectedTicket
+        selectedTicket: state => state.selectedTicket,
+        allUsers: state => state.allUsers
     },
 
     mutations,

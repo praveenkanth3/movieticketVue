@@ -35,6 +35,7 @@
           </div>
         </footer>
 
+      <loader v-if="loader" />
       </div>
     </div>
   </transition>
@@ -43,7 +44,9 @@
 import '../SignUp/Popup.css';
 import ButtonComponent from '../Button/ButtonComponent.vue'
 import InputBox from '../Input/InputBox.vue'
-// import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
+import Loader from '../Loader/Loader.vue';
+import apiServices from '@/apis/api';
 
 export default {
   name: 'SignIn',
@@ -52,6 +55,8 @@ export default {
     return {
       id: '',
       password: '',
+      
+      loader: false
     }
   },
 
@@ -62,6 +67,7 @@ export default {
 
   mounted() {
     this.$refs.input.focus();
+    // this.setAllUsers();
   },
 
   methods: {
@@ -71,6 +77,11 @@ export default {
       this.operatorSignup(true);
     },
 
+    // async setAllUsers() {
+    //   const allUsers = await apiServices.getUsers();
+    //   this.$store.dispatch('setAllUsers',allUsers)
+    // },
+
     onChangeId(val) {
       this.id = val
     },
@@ -79,31 +90,45 @@ export default {
       this.password = val
     },
 
-    onClickSignIn() {
+    async onClickSignIn() {
+      this.loader = true;
+      const allUsers = await apiServices.getUsers();
       if (this.id.length !== 0 && this.password.length >= 8) {
-        console.log('ans')
-        let userFromLocalStorage = JSON.parse(localStorage.getItem(this.id));
-        if (!userFromLocalStorage) {
+        let user = allUsers.find(val => val.loginId === this.id);
+        if (!user) {
           alert('invalid user');
+          this.loader = false;
         }else {
-          if (userFromLocalStorage.id === this.id && userFromLocalStorage.password === this.password) {
-            // this.$store.dispatch('setLogedinType', { id: this.id, password: this.password, isAdmin: false });
-            // window.operatorId = this.id;
-            // this.$router.push({ name: 'OperatorDetailView', query: { tollLoc: this.tollLocation } });
+          if (user.loginId === this.id && user.password === this.password) {
+            this.loader = false;
+            this.$store.dispatch('setUser',user);
+            alert('successfully loged in');
+            this.id = '';
+            this.password = '';
+            this.onCloseModel(false);
           }else {
+            this.loader = false;
             alert('id or password wrong');
           }
         }
       }else {
+        this.loader = false;
         alert('Id should be valid,password must be 8 digit');
       }
 
     }
   },
 
+  computed: {
+    ...mapGetters({
+      allUsers: 'allUsers'
+    })
+  },
+
   components: {
       ButtonComponent,
-      InputBox
+      InputBox,
+      Loader
   }
 }
 

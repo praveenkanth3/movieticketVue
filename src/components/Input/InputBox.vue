@@ -6,9 +6,10 @@
             class="input" 
             :type="inputType" 
             :placeholder="placeholder" 
-            :value="value"
+            :value="inputValue"
+            :maxlength="maxlength"
             ref="input"
-            @input="onChange($event.target.value)" :maxlength="maxlength"
+            @input="onChange($event.target.value)"
         />
     </div>
 </template>
@@ -52,10 +53,24 @@ export default {
         }
     },
 
+    data(){
+        return {
+            inputValue: this.value
+        }
+    },
+
     methods: {
         focus() {
             this.$refs.input.focus()
         }
+    },
+
+    watch: {
+      value: {
+        handler() {
+          this.value && (this.inputValue = this.value);
+        }
+      }
     }
 }
 

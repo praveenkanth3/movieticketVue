@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: 'CustomDrawer',
 
@@ -44,16 +46,26 @@ export default {
         }
     },
 
-    // mounted() {
-    //     this.$refs.drawer.focus();
-    // },
+    mounted() {
+        this.$refs.drawer.focus();
+    },
 
     methods: {
 
         onClickBookShow() {
-            this.$router.push({ name: 'BookingPage' });
-            this.$store.dispatch('setSelectedMovie', { movie: this.selectedMovie,price: 150});
+            if(!this.user.loginId) {
+                alert('login to proceed booking')
+            } else {
+                this.$router.push({ name: 'BookingPage' });
+                this.$store.dispatch('setSelectedMovie', { movie: this.selectedMovie,price: 150});
+            }
         }
+    },
+
+    computed: {
+        ...mapGetters({
+            user: 'user'
+        })
     }
 
 }

@@ -16,5 +16,9 @@ export const mutations = {
 
     setSelectedTickets(state,payload) {
         state.selectedTicket = payload;
+    },
+
+    setAllUsers(state,payload){
+        state.allUsers = payload
     }
 }

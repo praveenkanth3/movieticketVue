@@ -17,16 +17,19 @@
             />
         </div>
 
-        <div class="signin-container">
-            <div tabindex="0" @click="signinToggle">Sign In</div>
-            <div tabindex="0"  @click="signupToggle">Sign Up</div>
+        <div v-if="!user.loginId" class="signin-container">
+            <div class="user-action" tabindex="0" @click="signinToggle">Sign In</div>
+            <div class="user-action" tabindex="0"  @click="signupToggle">Sign Up</div>
         </div>
+
+        <div v-else class="signin-container">
+            <div :title="`id:${user.loginId},mobile:${user.mobile}`">{{ user.loginId }}</div>
+            <div class="user-action" tabindex="0"  @click="onClickLogOut">Logout</div>
+        </div>
+
         <sign-up v-if="signUpModalVisible" :onCloseModel="signupToggle" />
         <sign-in v-if="signInModalVisible" :onCloseModel="signinToggle" :operatorSignup="signupToggle"/>
-        <!-- <div class="user-section" v-if="user.name">
-            <div>{{ user.name }}</div>
-            <div class="logout-btn" tabindex="0" @click="onClickLogOut">Logout</div>
-        </div> -->
+
     </div>
 
 </template>
@@ -77,8 +80,8 @@ export default {
     methods: {
         onClickLogOut() {
             this.$store.dispatch('setUser', {});
-            this.$router.push({ name: 'LandingPage' });
-            localStorage.setItem('user',JSON.stringify({}));
+            this.$router.push({ name: 'HomePage' });
+            // localStorage.setItem('user',JSON.stringify({}));
         },
 
         signinToggle(val = true) {
@@ -114,6 +117,10 @@ export default {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+.user-action {
+    cursor: pointer;
 }
 
 .header-container {

@@ -32,6 +32,8 @@ import HeaderComponent from '../HeaderComponent/HeaderComponent.vue'
 import CardComponent from '../CardComponent/CardComponent.vue'
 import CustomDrawer from '../Drawer/CustomDrawer.vue'
 import { movies } from  '../../constants/moviesList'
+import { mapGetters } from 'vuex';
+
 
 export default {
     name: 'HomePage',
@@ -69,6 +71,11 @@ export default {
     },
 
     computed: {
+
+        ...mapGetters({
+            user: 'user'
+        }),
+
         movies() {
             return movies.filter((val) =>  val.title.toLowerCase().includes(this.searchTxt.toLowerCase()))
         },
