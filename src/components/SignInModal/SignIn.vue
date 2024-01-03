@@ -9,7 +9,7 @@
         </header>
 
         <section class="modal-body" id="modalDescription">
-          <div>Login Id</div>
+          <div>Login Id <span class="highlight">*</span></div>
           <input-box 
               placeholder="Enter the id"
               inputType="text"
@@ -18,13 +18,14 @@
               ref="input"
           />
 
-          <div>Password</div>
+          <div>Password <span class="highlight">*</span></div>
           <input-box
               placeholder="Enter the password"
               inputType="text"
               :value="password" 
               :onChange="onChangePassword"
           />
+          <span class="highlight">{{ errMsg }}</span>
         </section>
 
         <footer class="modal-footer">
@@ -55,7 +56,9 @@ export default {
     return {
       id: '',
       password: '',
-      
+
+      errMsg: '',
+
       loader: false
     }
   },
@@ -113,7 +116,8 @@ export default {
         }
       }else {
         this.loader = false;
-        alert('Id should be valid,password must be 8 digit');
+        this.errMsg = 'enter the valid id and password'
+        // alert('Id should be valid,password must be 8 digit');
       }
 
     }
@@ -137,5 +141,9 @@ export default {
 .createAccount {
   color: blue;
   cursor: pointer;
+}
+
+.highlight {
+  color: red;
 }
 </style>

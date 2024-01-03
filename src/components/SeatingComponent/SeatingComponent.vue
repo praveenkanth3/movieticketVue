@@ -2,7 +2,7 @@
     <div>
         <HeaderComponent title="Book Your Show"/>
 
-        <section class="seat-section">
+        <section :class="['seat-section',loader ? 'pointer-event' :'']">
             <div class="screen">{{ movie.movie.title }}</div>
 
             <div>
@@ -30,6 +30,8 @@
             <div>Total Amount: {{ total }}</div>
             <button-component  label="Book Tickets"  :onClickBtn="onClickBookTicket"/>
         </footer>
+
+        <loader v-if="loader"/>
     </div>
 
 </template>
@@ -38,6 +40,8 @@
 import { mapGetters } from 'vuex';
 import HeaderComponent from "../HeaderComponent/HeaderComponent.vue";
 import ButtonComponent from "../Button/ButtonComponent.vue";
+import apiServices from '@/apis/api';
+import Loader from '../Loader/Loader.vue';
 
 export default {
 
@@ -46,7 +50,13 @@ export default {
     data() {
         return {
             selectedSeats: [],
+
+            loader: false
         }
+    },
+
+    created() {
+        this.setPreRequisites();
     },
 
     mounted() {
@@ -58,9 +68,44 @@ export default {
             return Array.from({ length: end - start + 1 }, (_, index) => start + index);
         },
 
+        async setPreRequisites() {
+            this.loader = true;
+            const bookedTickets = await apiServices.getAllBookedTickets();
+            const convertedBookedTickets = bookedTickets.reduce((acc, obj) => {
+                    acc[obj.name] = {
+                        "Male":obj.bookedTickets.male,
+                        "Female":obj.bookedTickets.female,
+                    };
+                return acc;
+            }, {});
+            console.log(convertedBookedTickets,'dd')
+            this.$store.dispatch('setBookedTickets',convertedBookedTickets);
+            this.loader = false;
+        },
+
+        setSeatsForMale() {
+            if(this.user.gender === 'Male') {
+                return this.selectedSeats.concat(this.ticketsDetails[this.movie.movie.title].Male)
+            } else {
+                return this.ticketsDetails[this.movie.movie.title].Male
+            }
+
+        },
+
+        setSeatsForFemale() {
+            if(this.user.gender === 'Female') {
+                return this.selectedSeats.concat(this.ticketsDetails[this.movie.movie.title].Female)
+
+            } else {
+                return this.ticketsDetails[this.movie.movie.title].Female
+            }
+
+        },
+
         onClickBookTicket() {
-            this.$store.dispatch('setBookedTickets',{ movie:this.movie.movie.title, seats:this.selectedSeats, gender: this.user.gender });
-            this.$store.dispatch('setSelectedTickets', this.selectedSeats)
+            // this.$store.dispatch('setBookedTickets',{ movie:this.movie.movie.title, seats:this.selectedSeats, gender: this.user.gender });
+            apiServices.updateTickets({name: this.movie.movie.title,bookedTickets: { male : this.setSeatsForMale(), female: this.setSeatsForFemale()}})
+            this.$store.dispatch('setSelectedTickets', {name: this.movie.movie.title,seats:this.selectedSeats, amount: this.total});
             this.selectedSeats = [];
             this.$router.push({ name: 'SuccessPage', params: this.selectedSeats});
         },
@@ -109,9 +154,10 @@ export default {
     },
 
     components: {
-        HeaderComponent,
-        ButtonComponent
-    }
+    HeaderComponent,
+    ButtonComponent,
+    Loader
+}
 }
 
 </script>
@@ -145,6 +191,10 @@ export default {
     flex-wrap: wrap;
     row-gap: 40px;
     column-gap: 40px;
+}
+
+.pointer-event {
+    pointer-events: none;
 }
 
 .row > div {

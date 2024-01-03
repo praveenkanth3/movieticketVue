@@ -1,7 +1,10 @@
 <template>
     <div class="body-container">
         <img class="success-icon" src="../../constants/successIcon.svg" />
-        <h1>Successfully Booked The {{ selectedTicket.join(',') }} Tickets</h1>
+        <h1>Successfully Booked The {{ selectedTicket.seats.length }} Tickets</h1>
+        <div>Movie: {{ selectedTicket.name }}</div>
+        <div>Seats: {{ selectedTicket.seats.join(',') }}</div>
+        <div>Total Amount: {{ selectedTicket.amount }}</div>        
         <div tabindex="0" @click="onClickGoHome" class="goto-home">Go To Home</div>
     </div>
 </template>
@@ -9,9 +12,19 @@
 <script>
 import { mapGetters } from 'vuex';
 
-
 export default {
     name: "SuccessPage",
+
+    methods: {
+        onClickGoHome() {
+            this.$router.push({ name: 'HomePage'})
+            this.$store.dispatch('setSelectedTickets', {})
+        },
+
+        onClickPayment() {
+            console.log('payment logic')
+        }
+    },
 
     computed: {
     
@@ -20,11 +33,7 @@ export default {
         })
     },
 
-    methods: {
-        onClickGoHome() {
-            this.$router.push({ name: 'HomePage'})
-            this.$store.dispatch('setSelectedTickets', {})
-        }
+    components: {
     }
 }
 </script>

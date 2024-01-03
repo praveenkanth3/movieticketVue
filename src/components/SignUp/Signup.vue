@@ -9,7 +9,7 @@
         </header>
 
         <section class="modal-body" id="modalDescription">
-          <div>Login Id</div>
+          <div>Login Id <span class="highlight">*</span></div>
           <input-box 
               placeholder="Enter the id"
               inputType="text"
@@ -18,22 +18,31 @@
               ref="input"
           />
 
-          <div>Mobile Number</div>
+          <div>Gender <span class="highlight">*</span></div>
+          <select-component
+              :options="['Male','Female']"
+              @input="onChangeGender"
+              :value="gender"
+          />
+          
+
+          <div>Mobile Number <span class="highlight">*</span></div>
           <input-box
               placeholder="Enter the Mobile No."
-              inputType="number"
+              inputType="text"
               :value="mobile"
               maxlength="10"
               :onChange="onChangeMobile"
           />
 
-          <div>Password</div>
+          <div>Password <span class="highlight">*</span></div>
           <input-box
               placeholder="Create password"
               inputType="text"
               :value="password" 
               :onChange="onChangePassword"
           />
+          <span class="highlight">{{ errorMsg }}</span>
         </section>
 
         <footer class="modal-footer">
@@ -51,7 +60,8 @@ import ButtonComponent from '../Button/ButtonComponent.vue';
 import InputBox from '../Input/InputBox.vue';
 import { mapGetters } from 'vuex';
 import Loader from '../Loader/Loader.vue';
-import apiServices from  '../../apis/api'
+import apiServices from  '../../apis/api';
+import SelectComponent from '../SelectBox/SelectComponent.vue';
 
 
 export default {
@@ -65,8 +75,11 @@ export default {
     return {
       id: '',
       password: '',
+      gender: '',
       mobile: '',
-      
+
+      errorMsg:'',
+
       loader: false
     }
   },
@@ -86,35 +99,35 @@ export default {
       this.$store.dispatch('setAllUsers',allUsers)
     },
 
+    onChangeGender(val) {
+      this.gender = val;
+    },
+
     onChangePassword(val) {
       this.password = val
     },
 
     onChangeMobile(val) {
-      if(val.length < 10) {
-        console.log('ss')
-        this.mobile = val;
-      } else {
-        return ;
-      }
+        this.mobile = val.replace(/\D/g, '');
     },
 
     async onClickSignUp() {
       this.loader = true;
-      if (this.id !== '' && (this.password !== '' && this.password.length >= 8)) {
+      if (this.id && (this.password && this.password.length >= 8) && this.gender && (this.mobile && this.mobile.length === 10)) {
         let user = this.allUsers?.find(val => val.loginId === this.id);
         if (user) {
           alert('user already present');
           this.loader = false;
         }
         else {
-          const res = await apiServices.createUser({loginId: this.id,mobile:this.mobile,password:this.password});
+          const res = await apiServices.createUser({loginId: this.id,gender:this.gender,mobile:this.mobile,password:this.password});
           console.log(res);
           if(res.status === 201 && res.statusText === "Created") {
             this.loader = false;
             alert('successfully created the user');
             this.id = '';
             this.mobile = '';
+            this.gender = '';
             this.password = '';
             this.onCloseModel(false);
           }
@@ -125,8 +138,17 @@ export default {
         }
       }
       else {
-        alert('id or password are not valid');
+        // alert('id or password are not valid');
         this.loader = false;
+        if(!this.id) {
+          this.errorMsg = "enter the valid id"
+        } else if(this.password.length < 8){
+          this.errorMsg = "password length must be >= 8"
+        } else if(!this.gender) {
+          this.errorMsg = "Please Select Gender"
+        } else if(this.mobile.length < 10) {
+          this.errorMsg = "mobile no length must be = 10"
+        }
       }
     }
   },
@@ -140,7 +162,17 @@ export default {
   components: {
     ButtonComponent,
     InputBox,
+    SelectComponent,
     Loader
   }
 }
 </script>
+
+<style scoped>
+
+.highlight{ 
+  color: red;
+}
+
+
+</style>

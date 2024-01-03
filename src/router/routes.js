@@ -1,15 +1,8 @@
 export const routes = [
-    // {
-    //     name: 'LandingPage',
-    //     path: '/',
-    //     component: () => import(/* webpackChunkName: "LandingPage" */'../components/LandingPage/LandingPage.vue')
-    // },
     {
         name: 'HomePage',
         path: '/',
         component: () => import(/* webpackChunkName: "HomePage" */'../components/HomePage/HomePage.vue'),
-        meta: { requiresAuth: true }
-
     },
     {
         name: 'BookingPage',
