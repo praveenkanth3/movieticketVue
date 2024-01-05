@@ -132,7 +132,7 @@ export default {
             this.mobile = '';
             this.gender = '';
             this.password = '';
-            // this.onCloseModel(false);
+            this.onCloseModel(false);
           }
           else {
             alert('error while creating user');
