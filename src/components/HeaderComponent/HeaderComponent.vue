@@ -2,11 +2,13 @@
 
     <div class="header-container">
         <div class="title-section">
+
             <div class="logo-section">
                 <h1>{{ title }}</h1>
                 <i style="font-size:36px" class="fa fa-film"></i>
             </div>
             <!-- <InputBox v-if="onChangeSearch" placeholder="Search" :value="searchValue" :onChange="onChangeSearch"/> -->
+
             <searchable-dropDown 
                 v-if="onChangeSearch"
                 placeholder="Search Movie"
@@ -15,6 +17,7 @@
                 :options="searchOptions"
                 @onChangeOption="onChangeSearch"
             />
+            
         </div>
 
         <div v-if="!user.loginId" class="signin-container">

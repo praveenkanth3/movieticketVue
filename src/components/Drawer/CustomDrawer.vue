@@ -17,7 +17,7 @@
             </section>
 
             <footer>
-                <div class="bookTicket" tabindex="0" @click="onClickBookShow">Book Your show Here</div>
+                <div class="book-ticket" tabindex="0" @click="onClickBookShow">Book Your show Here</div>
             </footer>
     </div>
     </Transition>
@@ -81,7 +81,7 @@ export default {
   height: 100%;
   color: white;
   border: 5px solid antiquewhite;
-  background-color: burlywood; /* Add your desired background color */
+  background-color: burlywood; 
 }
 
 .bold-text {
@@ -99,7 +99,7 @@ export default {
     margin-top: 0;
 }
 
-.bookTicket {
+.book-ticket {
     background-color: white;
     color: black;
     cursor: pointer;

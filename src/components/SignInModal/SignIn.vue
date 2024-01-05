@@ -32,7 +32,7 @@
           <button-component customClass="btn-green" label="Sign In" :onClickBtn="onClickSignIn"/>
 
           <div>
-            Dont have an account? <span @click="onClickCreateAccount" class="createAccount">Create new account</span>
+            Dont have an account? <span @click="onClickCreateAccount" class="create-account">Create new account</span>
           </div>
         </footer>
 
@@ -138,7 +138,7 @@ export default {
 
 </script>
 <style scoped>
-.createAccount {
+.create-account {
   color: blue;
   cursor: pointer;
 }

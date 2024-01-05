@@ -68,7 +68,7 @@ export default {
     watch: {
       value: {
         handler() {
-          this.value && (this.inputValue = this.value);
+          this.inputValue = this.value;
         }
       }
     }

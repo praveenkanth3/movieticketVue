@@ -9,6 +9,7 @@
                 <div :style="{ color: 'blue', fontSize: '12px' }">Male Booked</div>
                 <div :style="{ color: 'pink', fontSize: '12px' }">Female Booked</div>
                 <div :style="{ color: 'rgb(168, 218, 168)', fontSize: '12px' }">Selected Seats</div>
+                <div :style="{ color: 'grey', fontSize: '12px' }">Blocked Seats</div>
             </div>
 
             <div class="seats">
@@ -18,7 +19,7 @@
                         v-for="n in range(1,60)" 
                         :key="n" @click="() => onClickSeat(n)" 
                         :ref="`seats${n}`"
-                        :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '']"
+                        :class="[selectedSeats.includes(n) ? 'selected-seats' : '', ticketsDetails[movie?.movie?.title]?.['Male']?.includes(n) ? 'booked-seats-male': '',ticketsDetails[movie?.movie?.title]?.['Female']?.includes(n) ? 'booked-seats-female': '',blockSelectedSeats(n) ? 'blocked-seats' : '']"
                     >
                         {{ n }}
                     </div>
@@ -51,7 +52,10 @@ export default {
         return {
             selectedSeats: [],
 
-            loader: false
+            loader: false,
+
+            receivedMessage: ''
+
         }
     },
 
@@ -61,11 +65,33 @@ export default {
 
     mounted() {
         console.log(this.movie)
+        const broadcastChannel = new BroadcastChannel('choosedSeats');
+
+        // Listen for messages from other tabs
+        broadcastChannel.onmessage = event => {
+        console.log('Received message:', event.data);
+        };
+
+        this.$watch('receivedMessage', (newVal, oldVal) => {
+            console.log('Received message changed:', newVal);
+           // Perform additional actions if needed
+        });
+
+        broadcastChannel.onmessage = event => {
+            // Update the receivedMessage property when a message is received
+            this.receivedMessage = event.data;
+        };
     },
 
     methods: {
         range(start, end) {
             return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+        },
+
+        blockSelectedSeats(n) {
+            if(JSON.stringify(this.receivedMessage.selectedSeats) !== JSON.stringify(this.selectedSeats) && this.receivedMessage.name === this.movie.movie.title){
+                return this.receivedMessage.selectedSeats.includes(n) ? true : false
+            }
         },
 
         async setPreRequisites() {
@@ -137,6 +163,8 @@ export default {
                    this.setSeats(val);
                 }
             }
+            const broadcastChannel = new BroadcastChannel('choosedSeats');
+            broadcastChannel.postMessage({name: this.movie.movie.title,selectedSeats:this.selectedSeats});
         }
     },
 
@@ -217,6 +245,12 @@ export default {
 
 .booked-seats-female {
     background-color: pink;
+    color: white;
+    pointer-events: none;
+}
+
+.blocked-seats {
+    background-color: grey;
     color: white;
     pointer-events: none;
 }

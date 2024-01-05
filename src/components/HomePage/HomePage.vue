@@ -17,6 +17,7 @@
                     :onClickCard="onClickCard" 
                 />
             </div>
+            
         </div>
 
         <CustomDrawer 

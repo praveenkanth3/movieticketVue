@@ -1,15 +1,15 @@
 <template>
-    <div class="selectBox">
+    <div class="select-box">
         <input
-          class="inputBox"
+          class="input-box"
           :placeholder="placeholder"
           v-model="searchInput"
           @focus="() => showOptions()"
         />
 
-        <div v-show="optionShow" class="dropdownContainer">
+        <div v-show="optionShow" class="dropdown-container">
             <div 
-              class="dropdownItem" 
+              class="dropdown-item" 
               v-for="(option, index) in filteredOptions" 
               :key="index" 
               @click="() => onClickDropDownItem(option)"
@@ -94,12 +94,12 @@ export default {
 </script>
 
 <style scoped>
-.selectBox {
+.select-box {
     position: relative;
     /* display: block; */
 }
 
-.inputBox {
+.input-box {
       background: #fff;
       cursor: pointer;
       border: 1px solid #e7ecf5;
@@ -111,7 +111,7 @@ export default {
       height: 25px;
 }
 
-.dropdownContainer {
+.dropdown-container {
   position: absolute;
   background-color: #fff;
   min-width: 248px;
@@ -122,7 +122,7 @@ export default {
   z-index: 1;
 }
 
-.dropdownItem {
+.dropdown-item {
     color: black;
     padding: 8px;
     text-decoration: none;
@@ -130,15 +130,15 @@ export default {
     cursor: pointer;
 }
 
-.dropdownItem:hover {
+.dropdown-item:hover {
     background-color: #e7ecf5;
 }
 
-.dropdownContainer {
+.dropdown-container {
     display: none;
 }
 
-.selectBox:hover .dropdownContainer {
+.select-box:hover .dropdown-container {
   display: block;
 }
 </style>

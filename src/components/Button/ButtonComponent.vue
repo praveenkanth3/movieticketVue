@@ -1,6 +1,6 @@
 <template>
 
-    <div class='btnContainer'>
+    <div class='btn-container'>
         <button @click="onClickBtn" :class="customClass">{{ label }}</button>
     </div>
 
@@ -37,7 +37,7 @@ button {
     width:fit-content;
 }
 
-.btnContainer {
+.btn-container {
     display: flex;
     justify-content: center;
 }

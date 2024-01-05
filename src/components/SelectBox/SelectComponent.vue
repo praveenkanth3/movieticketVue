@@ -64,7 +64,7 @@ export default {
     watch: {
       value: {
         handler() {
-          this.value && (this.selected = this.value);
+          this.selected = this.value;
         }
       }
     }

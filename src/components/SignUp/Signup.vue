@@ -29,7 +29,7 @@
           <div>Mobile Number <span class="highlight">*</span></div>
           <input-box
               placeholder="Enter the Mobile No."
-              inputType="text"
+              inputType="number"
               :value="mobile"
               maxlength="10"
               :onChange="onChangeMobile"
@@ -108,7 +108,10 @@ export default {
     },
 
     onChangeMobile(val) {
-        this.mobile = val.replace(/\D/g, '');
+      if (String(val).length <= 10) {
+        this.mobile = val
+      }
+        // this.mobile = val.replace(/[^0-9.]/g,'');
     },
 
     async onClickSignUp() {
@@ -129,7 +132,7 @@ export default {
             this.mobile = '';
             this.gender = '';
             this.password = '';
-            this.onCloseModel(false);
+            // this.onCloseModel(false);
           }
           else {
             alert('error while creating user');

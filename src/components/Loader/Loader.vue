@@ -12,6 +12,7 @@
   </script>
   
   <style>
+
   .loader {
     display: inline-block;
     width: 64px;
@@ -21,6 +22,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
   }
+
   .loader:after {
     content: " ";
     display: block;
@@ -32,6 +34,7 @@
     border-color: #2e2e2e transparent #2e2e2e transparent;
     animation: loader 0.7s linear infinite;
   }
+
   @keyframes loader {
     0% {
       transform: rotate(0deg);
